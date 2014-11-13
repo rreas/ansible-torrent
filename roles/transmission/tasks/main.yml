@@ -1,0 +1,34 @@
+- name: install transmission
+  apt: name={{item}} state=present
+  with_items:
+    - transmission-daemon
+
+- name: create torrents base
+  file:
+    path={{transmission_base_path}}
+    owner=debian-transmission
+    group=debian-transmission
+    mode=0770
+    state=directory
+
+- name: create torrents directory
+  file:
+    path={{transmission_base_path}}/{{item}}
+    owner=debian-transmission
+    group=debian-transmission
+    mode=0770
+    state=directory
+  with_items:
+    - '{{transmission_downloads_path}}'
+    - '{{transmission_watch_path}}'
+
+- name: stop transmission
+  service: name=transmission-daemon state=stopped
+
+- name: update configuration file
+  template:
+    src=transmission.json.j2
+    dest=/etc/transmission-daemon/settings.json
+
+- name: start and enable transmission
+  service: name=transmission-daemon state=started enabled=yes

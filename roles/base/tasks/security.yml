@@ -1,0 +1,6 @@
+- name: configure openssh
+  template:
+    src=sshd.j2
+    dest=/etc/ssh/sshd_config
+  notify:
+    - restart ssh

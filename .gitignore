@@ -1,0 +1,4 @@
+.vaultkey
+.vagrant/
+production
+group_vars/servers

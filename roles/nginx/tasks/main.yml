@@ -1,0 +1,32 @@
+- name: install latest nginx
+  apt: name={{item}} state=present
+  with_items:
+    - nginx
+
+- name: make directories for nginx
+  file:
+    path=/etc/nginx/{{item}}
+    state=directory
+  with_items:
+    - ssl
+    - logs
+
+- name: install ssl certificates
+  template:
+    src=server.{{item}}.j2
+    dest=/etc/nginx/ssl/server.{{item}}
+    mode=0600
+    owner=root
+  with_items:
+    - crt
+    - key
+
+- name: configure nginx
+  template:
+    src=nginx.conf.j2
+    dest=/etc/nginx/nginx.conf
+  notify:
+    - restart nginx
+
+- name: start and enable nginx
+  service: name=nginx state=started enabled=yes

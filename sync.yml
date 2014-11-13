@@ -1,0 +1,19 @@
+---
+- hosts: servers
+  gather_facts: no
+
+  tasks:
+    - name: include transmission variables
+      include_vars: roles/transmission/vars/main.yml
+
+    - name: copy torrent files to watch directory
+      copy:
+        src="{{item}}"
+        dest="{{transmission_base_path}}/{{transmission_watch_path}}/"
+      with_fileglob:
+        - ~/Downloads/*.torrent
+
+    - name: remove local torrent files
+      local_action: command rm "{{item}}"
+      with_fileglob:
+        - ~/Downloads/*.torrent

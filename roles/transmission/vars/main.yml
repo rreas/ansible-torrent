@@ -1,0 +1,4 @@
+transmission_base_path: /torrents
+transmission_downloads_path: data
+transmission_watch_path: watch
+transmission_port: 54923
