@@ -1,2 +1,2 @@
-#- include: update.yml
+- include: update.yml
 - include: security.yml
