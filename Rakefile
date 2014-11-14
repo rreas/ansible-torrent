@@ -6,7 +6,7 @@ task default: 'spec'
 
 namespace :spec do
   addrs = Dir
-    .glob('./spec/*')
+    .glob('./spec/1*')
     .select { |path| File.directory?(path) }
     .map    { |path| File.basename(path) }
 
