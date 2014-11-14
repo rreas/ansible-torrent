@@ -2,5 +2,4 @@
 - hosts: servers
   roles:
     - base
-    - transmission
-    - nginx
+    - rtorrent

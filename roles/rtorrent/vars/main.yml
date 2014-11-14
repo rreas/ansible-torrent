@@ -1,0 +1,5 @@
+torrents_user: rtorrent
+torrents_base_path: /torrents
+torrents_downloads_path: data
+torrents_watch_path: watch
+torrents_port: 54923

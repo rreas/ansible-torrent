@@ -1,0 +1,46 @@
+#!/bin/bash
+
+### BEGIN INIT INFO
+# Provides:          rtorrent
+# Required-Start:
+# X-Start-Before:
+# Required-Stop:
+# Default-Start:     2
+# Default-Stop:      1
+# Short-Description: run rtorrent as a given user in tmux
+# Description:       run rtorrent as a given user in tmux
+### END INIT INFO
+
+USER=rtorrent
+SESS_NAME=rtorrent
+
+case "$1" in
+  start)
+    sudo -u $USER tmux new-session -d -s rtorrent $SESS_NAME
+    if [ $? -ne 0 ] ; then
+      echo "rTorrent is running."
+    else
+      echo "rTorrent is started."
+    fi
+    ;;
+
+  stop)
+    PID=$(pidof rtorrent)
+    if [ "$PID" != "" ] ; then
+      kill $PID
+      echo "rTorrent now stopped."
+    else
+      echo "rTorrent is NOT running."
+    fi
+    ;;
+
+  bring-front)
+    if [ -e $PIDFILE ] ; then
+      sudo -u $USER tmux at -t $SESS_NAME
+    fi
+    ;;
+
+  *)
+    echo "Usage: $0 start|stop|bring-front"
+    ;;
+esac

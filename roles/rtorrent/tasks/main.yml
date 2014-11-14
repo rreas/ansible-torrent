@@ -1,0 +1,51 @@
+- name: install rtorrent
+  apt: name={{item}} state=present
+  with_items:
+    - rtorrent
+
+- name: create user
+  user: name={{torrents_user}} state=present
+
+- name: create torrents base
+  file:
+    path={{torrents_base_path}}
+    owner={{torrents_user}}
+    group={{torrents_user}}
+    mode=0770
+    state=directory
+
+- name: create torrents directory
+  file:
+    path={{torrents_base_path}}/{{item}}
+    owner={{torrents_user}}
+    group={{torrents_user}}
+    mode=0770
+    state=directory
+  with_items:
+    - '{{torrents_downloads_path}}'
+    - '{{torrents_watch_path}}'
+
+- name: create torrents session directory
+  file:
+    path=/home/{{torrents_user}}/.rtorrent
+    owner={{torrents_user}}
+    group={{torrents_user}}
+    state=directory
+    mode=0770
+
+- name: update configuration file
+  template:
+    src=rtorrent.rc.j2
+    dest=/home/{{torrents_user}}/.rtorrent.rc
+
+- name: setup init script
+  template:
+    src=rtorrent.init.j2
+    dest=/etc/init.d/rtorrent
+    mode=0700
+
+- name: enable rtorrent service
+  command: update-rc.d rtorrent defaults
+
+- name: start rtorrent service
+  command: service rtorrent start
