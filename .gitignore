@@ -1,4 +1,4 @@
 .vaultkey
 .vagrant/
 production
-group_vars/ssl
+group_vars/servers

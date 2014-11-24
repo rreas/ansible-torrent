@@ -1,4 +1,4 @@
-- name: install latest nginx
+- name: install nginx
   apt: name={{item}} state=present
   with_items:
     - nginx

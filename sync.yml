@@ -4,14 +4,15 @@
 
   tasks:
     - name: include variables
-      include_vars: roles/rtorrent/vars/main.yml
+      include_vars: roles/transmission/vars/main.yml
 
     - name: copy torrent files to watch directory
+      sudo: yes
       copy:
         src="{{item}}"
-        dest="{{torrents_base_path}}/{{torrents_watch_path}}/"
-        owner={{torrents_user}}
-        group={{torrents_user}}
+        dest="{{transmission_base_path}}/{{transmission_watch_path}}/"
+        owner=debian-transmission
+        group=debian-transmission
       with_fileglob:
         - ~/Downloads/*.torrent
 
