@@ -10,8 +10,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.network 'private_network', ip: '192.168.33.123'
 
   config.vm.provision 'ansible' do |ansible|
-    ansible.inventory_path      = 'testing'
-    ansible.playbook            = 'server.yml'
+    ansible.inventory_path      = 'inventories/testing'
+    ansible.playbook            = 'site.yml'
     ansible.vault_password_file = '.vaultkey'
     ansible.limit               = 'all'
     ansible.sudo                = true
