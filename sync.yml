@@ -6,6 +6,12 @@
     - name: include variables
       include_vars: roles/transmission/vars/main.yml
 
+    - name: sync remote files to local directory
+      synchronize:
+        mode=pull
+        src={{transmission_base_path}}/{{transmission_downloads_path}}/
+        dest=~/Music/torrents
+
     - name: copy torrent files to watch directory
       sudo: yes
       copy:
